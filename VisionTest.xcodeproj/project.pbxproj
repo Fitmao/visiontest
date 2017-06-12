@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		933F1A2A1EEE1E8200E1CB57 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933F1A291EEE1E8200E1CB57 /* Utilities.swift */; };
+		939D5DEC1EEEBB7D002BB062 /* IMG_3140.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 939D5DEA1EEEBB7D002BB062 /* IMG_3140.PNG */; };
+		939D5DED1EEEBB7D002BB062 /* IMG_3138.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 939D5DEB1EEEBB7D002BB062 /* IMG_3138.PNG */; };
 		93DA435E1EED4CC6009B795F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DA435D1EED4CC6009B795F /* AppDelegate.swift */; };
 		93DA43601EED4CC6009B795F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DA435F1EED4CC6009B795F /* ViewController.swift */; };
 		93DA43631EED4CC6009B795F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93DA43611EED4CC6009B795F /* Main.storyboard */; };
@@ -36,6 +38,8 @@
 
 /* Begin PBXFileReference section */
 		933F1A291EEE1E8200E1CB57 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		939D5DEA1EEEBB7D002BB062 /* IMG_3140.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = IMG_3140.PNG; path = ../../../../../Downloads/IMG_3140.PNG; sourceTree = "<group>"; };
+		939D5DEB1EEEBB7D002BB062 /* IMG_3138.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = IMG_3138.PNG; path = ../../../../../Downloads/IMG_3138.PNG; sourceTree = "<group>"; };
 		93DA435A1EED4CC6009B795F /* VisionTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisionTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93DA435D1EED4CC6009B795F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		93DA435F1EED4CC6009B795F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -106,6 +110,8 @@
 				93DA43641EED4CC6009B795F /* Assets.xcassets */,
 				93DA43661EED4CC6009B795F /* LaunchScreen.storyboard */,
 				93DA43691EED4CC6009B795F /* Info.plist */,
+				939D5DEB1EEEBB7D002BB062 /* IMG_3138.PNG */,
+				939D5DEA1EEEBB7D002BB062 /* IMG_3140.PNG */,
 			);
 			path = VisionTest;
 			sourceTree = "<group>";
@@ -234,7 +240,9 @@
 			files = (
 				93DA43681EED4CC6009B795F /* LaunchScreen.storyboard in Resources */,
 				93DA43651EED4CC6009B795F /* Assets.xcassets in Resources */,
+				939D5DED1EEEBB7D002BB062 /* IMG_3138.PNG in Resources */,
 				93DA43631EED4CC6009B795F /* Main.storyboard in Resources */,
+				939D5DEC1EEEBB7D002BB062 /* IMG_3140.PNG in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
