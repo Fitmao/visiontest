@@ -8,7 +8,6 @@
 
 import UIKit
 import Vision
-import AVFoundation
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -16,8 +15,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     let imagePicker = UIImagePickerController()
     var detectImageView = UIImageView()
     var detectImage: UIImage?
-    var rectImageView = UIImageView()
-    var rectImage: UIImage?
     
     var screenSize: CGSize {
         return UIScreen.main.bounds.size
@@ -26,25 +23,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let captureSession = AVCaptureSession()
-//        let out = AVCaptureVideoDataOutput()
-//        out.setSampleBufferDelegate(self, queue: DispatchQueue(label: "out"))
-//        captureSession.addOutput(out)
-//
-//        captureSession.startRunning()
-        
-        let label = UILabel(frame: CGRect(x: 100, y: 100, width: 100, height: 30))
-        label.textColor = UIColor.white
-        label.text = "| 100, 100"
-        self.view.addSubview(label)
-        
-        rectImageView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
-        rectImageView.contentMode = .scaleAspectFit
         detectImageView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
         detectImageView.contentMode = .scaleAspectFit
         detectImageView.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 1, 0, 0)
         self.view.addSubview(detectImageView)
-        self.view.addSubview(rectImageView)
         
         imagePicker.sourceType = .photoLibrary
         imagePicker.delegate = self
@@ -61,12 +43,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func faceLandmarksHandler(request: VNRequest, error: Error?) {
         DispatchQueue.main.async {
-            self.observationInfo(request.results as! [VNFaceObservation])
+            self.observation(request.results as! [VNFaceObservation])
         }
     }
     
-    func observationInfo(_ observation: [VNFaceObservation]) {
-        guard let img = detectImage, let landmarks = observation.first?.landmarks else {
+    func observation(_ observation: [VNFaceObservation]) {
+        guard let img = detectImage, let _ = observation.first?.landmarks else {
             DispatchQueue.main.async {
                 let alert = UIAlertController(title: "Detect failed", message: "Invalid face bounding", preferredStyle: .alert)
                 let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
@@ -77,54 +59,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         
         let imageScale: CGFloat = screenSize.width/img.size.width
-        
         var s = img.size
         s.width *= imageScale
         s.height *= imageScale
-//        rectImageView.frame = (observation.first?.boundingBox)!.scaled(to: s)
-//        rectImageView.layer.transform = CATransform3DMakeRotation(CGFloat.pi, 1, 0, 0)
         
         UIGraphicsBeginImageContextWithOptions(CGSize(width: screenSize.width, height: img.size.height*imageScale), false, 1)
         let context = UIGraphicsGetCurrentContext()
         
-//        detectImageView.image = faceBoundingBox(img: img,
-//                                                imageScale: imageScale,
-//                                                observation: observation,
-//                                                graphicsContext: context)
-        
-        context?.draw(img.cgImage!, in: CGRect(x: 0, y: 0, width: screenSize.width, height: img.size.height*imageScale))
-        context?.addRect((observation.first?.boundingBox)!.scaled(to: s))
-        
-        context?.setLineWidth(0.8)
-        context?.setStrokeColor(UIColor.green.cgColor)
-        context?.strokePath()
-        
-        detectImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        let marks = LandMarks2DArray(landmarks: landmarks)
-        let marksX = marks.scaleX(markType: .faceCoutour, scaled: 1)
-        let marksY = marks.scaleY(markType: .faceCoutour, scaled: 1)
-        
-        let boundingBox = observation.first?.boundingBox.scaled(to: s)
-        
-        UIGraphicsBeginImageContextWithOptions(CGSize(width: screenSize.width, height: img.size.height*imageScale), false, 1)
-        let context2 = UIGraphicsGetCurrentContext()
-        
-        context2?.draw((detectImage?.cgImage!)!, in: CGRect(x: 0, y: 0, width: screenSize.width, height: img.size.height*imageScale))
-        context2?.move(to: CGPoint(x: CGFloat(marksX[0])*(boundingBox?.size.width)!+(boundingBox?.size.width)!,
-                                   y: CGFloat(marksY[0])*(boundingBox?.size.height)!+(boundingBox?.size.height)!))
-        
-        for i in 1..<marksX.count {
-            context2?.addLine(to: CGPoint(x: CGFloat(marksX[i])*(boundingBox?.size.width)!+(boundingBox?.size.width)!,
-                                          y: CGFloat(marksY[i])*(boundingBox?.size.height)!+(boundingBox?.size.height)!))
-        }
-        
-        context2?.setLineWidth(0.8)
-        context2?.setStrokeColor(UIColor.green.cgColor)
-        context2?.strokePath()
-        
-        rectImageView.image = UIGraphicsGetImageFromCurrentImageContext()
+        detectImageView.image = faceBoundingBox(img: img,
+                                                imageScale: imageScale,
+                                                observation: observation,
+                                                graphicsContext: context)
         UIGraphicsEndImageContext()
     }
     
@@ -133,7 +78,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         s.width *= imageScale
         s.height *= imageScale
         
-//        UIGraphicsBeginImageContextWithOptions(CGSize(width: screenSize.width, height: img.size.height*imageScale), false, 1)
         graphicsContext?.draw(img.cgImage!, in: CGRect(x: 0, y: 0, width: screenSize.width, height: img.size.height*imageScale))
         graphicsContext?.addRect((observation.first?.boundingBox)!.scaled(to: s))
         graphicsContext?.setLineWidth(0.8)
@@ -143,10 +87,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let image = UIGraphicsGetImageFromCurrentImageContext()
         
         return image
-    }
-    
-    private func faceLandmarks() {
-        
     }
     
     @objc func pickImage(sender: UIButton) {
@@ -178,10 +118,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             print(error)
         }
     }
-    
-//    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-//        print("Running...")
-//    }
 }
 
 
